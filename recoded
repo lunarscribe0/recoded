@@ -1,0 +1,39 @@
+#!/bin/bash
+#Recoded - yt-dlp & ffmpeg extension layer
+#Outer layer
+
+modeSetting="";
+
+function checkSet() {
+   if [ -n "$1" ]
+   then
+      echo "$2"
+      exit 1
+   fi
+}
+
+function checkNotSet() {
+   if [ -z "$1" ]
+   then
+      echo "$2"
+      exit 1
+   fi
+}
+
+
+while getopts ":d:c:r" arg; do
+   case "${arg}" in
+      d) #downloading
+         checkSet "$modeSetting" "ERROR! Mode already set."
+         ./recoded-dl "$@"
+         ;;
+      c) #converting
+         checkSet "$modeSetting" "ERROR! Mode already set."
+         ./recoded-cv "$@"
+         ;;
+      r) #remuxing
+         checkSet "$modeSetting" "ERROR! Mode already set."
+         ./recoded-rx "$@"
+         ;;
+   esac
+done;
